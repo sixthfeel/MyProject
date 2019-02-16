@@ -1,1 +1,5 @@
-test
+git status
+git add .idea
+git commit -m "idea"
+git pull origin master --allow-unrelated-histories
+git push origin master
