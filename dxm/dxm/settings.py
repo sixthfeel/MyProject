@@ -74,10 +74,8 @@ WSGI_APPLICATION = 'dxm.wsgi.application'
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+    'default': dict(ENGINE='django.db.backends.mysql', NAME="dxmanager", USER="dxm", PASSWORD="12#4zxCv",
+                    HOST="47.110.115.167", PORT="3306")
 }
 
 
