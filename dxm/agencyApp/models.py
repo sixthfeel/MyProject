@@ -16,13 +16,13 @@ class AgencyInfo(models.Model):
 class TestInfo(models.Model):
     testno = models.CharField(max_length=14)
     testappl = models.CharField(max_length=12)
-    testappl_date = models.DateField()
+    testappldate = models.DateField()
     testcont = models.CharField(max_length=12)
     testcontno = models.CharField(max_length=11)
     testcontmail = models.CharField(max_length=50)
     testtype = models.CharField(max_length=10)
-    teststart_date = models.DateField()
-    testend_date = models.DateField()
+    teststartdate = models.DateField()
+    testenddate = models.DateField()
     teststatus = models.CharField(max_length=2)
     agencyno = models.ForeignKey("AgencyInfo", on_delete=models.CASCADE)
 

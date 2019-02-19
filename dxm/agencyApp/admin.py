@@ -4,12 +4,12 @@ from .models import *
 
 
 class AgencyInfoAdmin(admin.ModelAdmin):
-    list_display = ['agencyno', 'agencyname', 'agencytype']
+    list_display = ['agencyno', 'agencyname', 'agencytype', 'agencyonprd']
 
 
 class TestInfoAdmin(admin.ModelAdmin):
-    list_display = ['testno', 'testappl', 'testappl_date', 'testcont', 'testcontno', 'testcontmail', 'testtype',
-                    'teststart_date', 'testend_date', 'teststatus', 'agencyno']
+    list_display = ['testno', 'testappl', 'testappldate', 'testcont', 'testcontno', 'testcontmail', 'testtype',
+                    'teststartdate', 'testenddate', 'teststatus', 'agencyno']
 
 
 admin.site.register(AgencyInfo, AgencyInfoAdmin)
