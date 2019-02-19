@@ -7,6 +7,7 @@ class AgencyInfo(models.Model):
     agencyno = models.CharField(max_length=9)
     agencyname = models.CharField(max_length=36)
     agencytype = models.CharField(max_length=4)
+    agencyonprd = models.CharField(max_length=2)
 
     def __str__(self):
         return self.agencyname
