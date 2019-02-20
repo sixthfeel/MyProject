@@ -24,7 +24,7 @@ class TestInfo(models.Model):
     teststartdate = models.DateField(verbose_name='测试开始日')
     testenddate = models.DateField(verbose_name='测试结束日')
     teststatus = models.CharField(max_length=2, verbose_name='测试状态')
-    agencyno = models.ForeignKey("AgencyInfo", on_delete=models.CASCADE)
+    agencyno = models.ForeignKey("AgencyInfo", verbose_name='销售商', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.testno
