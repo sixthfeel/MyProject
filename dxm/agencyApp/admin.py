@@ -15,16 +15,25 @@ class AgencyInfoAdmin(admin.ModelAdmin):
 	list_display = [
 		'agencyno', 'agencyname', 'agencytype', 'colored_agencyonprd'
 	]
+	list_display_links = ['agencyno']
 	list_filter = ['agencyno', 'agencyonprd']
 	search_fields = ['agencyno']
 	list_per_page = 20
+
+	def get_readonly_fields(self, request, obj=None):
+		# 重新定义此函数，限制普通用户所能修改的字段
+		if request.user.is_superuser:
+			self.readonly_fields = []
+		return self.readonly_fields
+
+	readonly_fields = ['color_code', 'colored_agencyonprd']
 
 
 class TestInfoAdmin(admin.ModelAdmin):
 	# list_display设置要显示在列表中的字段
 	list_display = [
-		'testno', 'agencyno', 'testappl', 'testappldate', 'testcont', 'testcontno',
-		'testcontmail', 'teststartdate', 'testenddate', 'teststatus'
+		'testno', 'teststatus', 'agencyno', 'testappl', 'testappldate', 'testcont', 'testcontno',
+		'testcontmail', 'teststartdate', 'testenddate'
 	]
 	# list_filter筛选器
 	list_filter = ['agencyno', 'teststartdate', 'testenddate']
