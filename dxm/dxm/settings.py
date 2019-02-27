@@ -25,7 +25,7 @@ SECRET_KEY = '1^^1(d4n@#au*ggovr_su()27v^&bhy$+61k86kvh)jzy$dpq_'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['168.60.22.105', '127.0.0.1']
 
 
 # Application definition
@@ -72,11 +72,12 @@ WSGI_APPLICATION = 'dxm.wsgi.application'
 
 
 # Database
-# https://docs.djangoproject.com/en/2.1/ref/settings/#databases
+# https://docs.djangoproject.com/en/2.1/ref/settings/#databases 47.110.115.167
 
 DATABASES = {
     'default': dict(ENGINE='django.db.backends.mysql', NAME="dxmanager", USER="dxm", PASSWORD="12#4zxCv",
-                    HOST="47.110.115.167", PORT="3306")
+                    HOST="168.60.22.105", PORT="3306"),
+    'OPTIONS':{'isolation_level':None}
 }
 
 
