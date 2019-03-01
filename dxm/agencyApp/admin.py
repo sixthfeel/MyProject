@@ -1,6 +1,9 @@
+import xlwt
 from django.contrib import admin
 from .models import *
 from django.utils.html import format_html
+from django.http import StreamingHttpResponse
+
 
 # Register your models here.
 
@@ -13,6 +16,7 @@ admin.site.index_title = "代销测试信息维护"
 
 
 class AgencyInfoAdmin(admin.ModelAdmin):
+	actions = ["saveexecl"]
 	list_display = [
 		'agencyno', 'agencyname', 'agencytype', 'colored_agencyonprd'
 	]
@@ -37,17 +41,45 @@ class AgencyInfoAdmin(admin.ModelAdmin):
 
 	readonly_fields = ['colored_agencyonprd']
 
+	def saveexecl(self, request, queryset):
+		Begin = xlwt.Workbook()
+		sheet = Begin.add_sheet("response")
+		cols = 0
+		for query in queryset:
+			# you need write colms                     # 好像有个方法可以一次性写入所有列，记不清了，只能用这种简单的方法去实现
+			sheet.write(cols, 1, str(query.agencyno))  # 写入第一列
+			sheet.write(cols, 2, str(query.agencyname))  # 写入第二列
+			sheet.write(cols, 3, str(query.agencytype))  # 写入第三列
+			cols += 1
+		Begin.save("%s" % ('filename'))
+
+		def file_iterator(filename, chuck_size=512):
+			with open(filename, "rb") as f:
+				while True:
+					c = f.read(chuck_size)
+					if c:
+						yield c
+					else:
+						break
+
+		response = StreamingHttpResponse(file_iterator('filename'))
+		response['Content-Type'] = 'application/octet-stream'
+		response['Content-Disposition'] = 'attachment;filename="{}"'.format("result.xls")
+		return response
+
+	saveexecl.short_description = "导出Excel"  # 按钮显示名字
+
 
 class TestInfoAdmin(admin.ModelAdmin):
 	# list_display设置要显示在列表中的字段
 	list_display = [
-		'testserno', 'colored_teststatus', 'agencyno', 'testappl', 'testappldate', 'testcont', 'testcontno',
+		'testserno', 'colored_teststatus', 'agencyno', 'get_agencyname', 'testappl', 'testappldate', 'testcont', 'testcontno',
 		'testcontmail', 'teststartdate', 'testenddate'
 	]
 	# list_filter筛选器
 	list_filter = ['agencyno', 'teststartdate', 'testenddate']
-	# search_fields搜素栏
-	search_fields = ('testappl',)
+	# search_fields搜素栏,外键要用agencyno__agencyname的形式查询
+	search_fields = ['agencyno__agencyname', 'testappl', 'colored_teststatus']
 	# ordering设置默认排序字段，负号表示降序排序
 	ordering = ('-testappldate',)
 	# list_per_page分页条数
@@ -61,6 +93,10 @@ class TestInfoAdmin(admin.ModelAdmin):
 		testserno = str(testno1) + '-' + str(testno2) + '-' + str(testno3)
 		return testserno
 	testserno.short_description = u"测试序号"
+
+	def get_agencyname(self, obj):
+		return obj.agencyno.agencyname
+	get_agencyname.short_description = u"销售商名称"
 
 	def colored_teststatus(self, obj):
 		if obj.teststatus == '1':

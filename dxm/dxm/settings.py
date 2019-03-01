@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'dxm.wsgi.application'
 DATABASES = {
     'default': dict(ENGINE='django.db.backends.mysql', NAME="dxmanager", USER="dxm", PASSWORD="12#4zxCv",
                     HOST="168.60.22.105", PORT="3306"),
-    'OPTIONS':{'isolation_level':None}
+    'OPTIONS': {'isolation_level': None}
 }
 
 
